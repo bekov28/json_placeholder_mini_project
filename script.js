@@ -39,15 +39,23 @@ window.addEventListener("DOMContentLoaded", () => {
       object[key] = value;
     });
     const json = JSON.stringify(object); //need to send data in json format when using POST method
-    console.log(json);
 
     fetch(BASE_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: json,
     })
-    .then((res) => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err))
+      .then((res) => res.json()) //converting to object
+      .then((data) => {
+        form.reset();
+        const postEl = document.createElement("div");
+        postEl.classList.add("post");
+        postEl.innerHTML += `
+        <h4><b>#${data.id}.</b>${data.title}</h4>
+          <p>${data.body}</p>
+        `;
+        postsWrapper.append(postEl);
+      })
+      .catch((err) => console.log(err));
   });
 });
