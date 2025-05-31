@@ -58,4 +58,24 @@ window.addEventListener("DOMContentLoaded", () => {
       })
       .catch((err) => console.log(err));
   });
+
+  //LocalStorage
+  const form2 = document.querySelector("form");
+
+  form2.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form2); //returns object kind of data
+
+    const object2 = {}; //save the data to an object
+
+    formData.forEach((value, key) => {
+      object2[key] = value;
+    });
+
+    const posts = [];
+    posts.push(object2);
+    
+    
+  });
 });
