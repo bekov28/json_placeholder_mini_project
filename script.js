@@ -60,7 +60,8 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   //LocalStorage
-  const form2 = document.querySelector("form");
+  const form2 = document.querySelector("form"),
+    postParent = document.querySelector(".posts");
 
   form2.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -73,9 +74,32 @@ window.addEventListener("DOMContentLoaded", () => {
       object2[key] = value;
     });
 
-    const posts = [];
-    posts.push(object2);
-    
-    
+    const db = JSON.parse(localStorage.getItem("posts"));
+
+    if (db) {
+      localStorage.setItem("posts", JSON.stringify([...db, object2]));
+    } else {
+      localStorage.setItem("posts", JSON.stringify([object2]));
+    }
   });
+
+  getPosts();
+
+  function getPosts() {
+    const posts = JSON.parse(localStorage.getItem("posts"));
+
+    posts.forEach((item, index) => {
+      const postEl = document.createElement("div");
+      postEl.classList.add("post");
+      postEl.innerHTML = `
+      <h4>
+        <b>#${index + 1}.</b> ${item.title}
+      </h4>
+      <p>
+        ${item.body}
+      </p>
+      `;
+      postParent.append(postEl);
+    });
+  }
 });
